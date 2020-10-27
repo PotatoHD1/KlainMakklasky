@@ -3,6 +3,14 @@ import pandas as pd
 import random
 
 
+def F2(a):
+    newlist = []
+    for i in a:
+        if i not in newlist:
+            newlist.append(i)
+    return newlist
+
+
 def F4(table, inp, res):
     temp = dict(table)
     for k in res:
@@ -16,19 +24,20 @@ def F4(table, inp, res):
     return True
 
 
-def F2(a):
-    newlist = []
-    for i in a:
-        if i not in newlist:
-            newlist.append(i)
-    return newlist
-
-
-ALPHABET = \
-    "0123456789abcdefghijklmnopqrstuvwxyz"
+def F3(inp, res):
+    for i in inp:
+        f = F1(bin(i + 16)[3:])
+        table[f] = [0] * len(res)
+        for j, k in enumerate(res):
+            if i in k[0]:
+                table[f][j] = 1
+    df = pd.DataFrame(data=table, index=[i[1] for i in res])
+    return df
 
 
 def encode(n):
+    ALPHABET = \
+        "0123456789abcdefghijklmnopqrstuvwxyz"
     try:
         return ALPHABET[n]
     except IndexError:
@@ -67,7 +76,7 @@ def F1(a):
     return res
 
 
-inp = [1, 2, 3, 4, 5, 6, 9, 11, 13, 15]
+inp = [0, 2, 4, 6, 9, 10, 11, 12, 13, 14]
 a = [[], [], [], [], []]
 res = []
 used = set()
@@ -105,12 +114,12 @@ for i in range(len(res)):
     res[i] = (res[i][0], F1(res[i][1]))
 print(res)
 result = set()
-for l in range(2 ** 7):
+for l in range(2 ** len(res)):
     table = {}
     inp1 = []
     res1 = []
-    for i in range(7):
-        if str(bin(l + 2 ** 7))[3:][i] == "1":
+    for i in range(len(res)):
+        if str(bin(l + 2 ** len(res)))[3:][i] == "1":
             res1.append(res[i])
     for i in inp:
         f = F1(bin(i + 16)[3:])
@@ -124,10 +133,13 @@ for l in range(2 ** 7):
         temp += k[1] + "V"
     temp = temp[:-1]
     # print(inp1)
-    if all([i > 0 for i in table.values()]) and F4(table, inp, res1) and temp not in result:
-        result.add(temp)
-        print(temp, [i + 1 for i in range(len(res)) if str(bin(l + 2 ** len(res)))[3:][i] == "1"])
-
+    if all([i > 0 for i in table.values()]) and F4(table, inp, res1):
+        if not temp in result:
+            result.add(temp)
+            df = F3(inp, res1)
+            df.to_excel(f"output{l}.xlsx")
+            print(temp)
+            # print(result)
 print(result)
 # for i in inp:
 #     f = F1(bin(i + 16)[3:])

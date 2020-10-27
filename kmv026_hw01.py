@@ -1,4 +1,4 @@
-from decimal import *
+from math import e
 
 
 def F1(a, n=2):
@@ -8,17 +8,31 @@ def F1(a, n=2):
 
 def F2(a):
     m_a = get_count(a)
-    return m_a, int(round(a * 10 ** m_a))
+    if str(a).__contains__("e"):
+        res = str(a).replace(".", "").split('e')[0]
+    else:
+        res = str(a).replace(".", "")
+    return m_a, int(res)
 
 
 def get_count(number):
-    return Decimal(str(number)).as_tuple().exponent * (-1)
+    if str(number).__contains__("."):
+        if not str(number).__contains__("e"):
+            leng = len(str(number).split('.')[1])
+        else:
+            tmp = str(number).split('.')[1].split('e')
+            leng = len(tmp[0]) - int(tmp[1])
+    else:
+        if not str(number).__contains__("e"):
+            leng = 0
+        else:
+            leng = -int(str(number).split('e')[1])
+    return leng
 
 
 def F(a, b):
     m_a, a = a
     m_b, b = b
-    # print(m_a, m_b)
     m_c = max(m_a, m_b)
     a *= 10 ** (m_c - m_a)
     b *= 10 ** (m_c - m_b)
@@ -26,13 +40,10 @@ def F(a, b):
 
 
 def f(x, y):
-    # a = F(F1(F(x, 1.0)), F1(F(y, 4.0)))
+    a = F(F1(F(x, 1.0)), F1(F(y, 4.0)))
     if -5 < y < -3 and -1 < x < 9:
-        a = (Decimal(x) + 1) ** 2 + (Decimal(y) + 4) ** 2
-        print(a)
-        if (a == Decimal(6 ** 2) or a == Decimal(8 ** 2)):
+        if F(a, F2(-6 ** 2))[1] == 0 or F(a, F2(-8 ** 2))[1] == 0:
             return True
-
     return False
 
 
@@ -52,4 +63,4 @@ def f(x, y):
 # print(num)
 
 # print(f(1.000000000000001, 1))
-print("%.60f" % 1.2399)
+print(F(F1(F2(8.0), 100), F2(-8 ** 100)))

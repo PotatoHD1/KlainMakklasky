@@ -1,6 +1,3 @@
-from math import e
-
-
 def F1(a, n=2):
     m_a, a = a
     return m_a * n, a ** n
@@ -40,27 +37,35 @@ def F(a, b):
 
 
 def f(x, y):
-    a = F(F1(F(x, 1.0)), F1(F(y, 4.0)))
     if -5 < y < -3 and -1 < x < 9:
+        a = F(F1(F(F2(x), F2(1.0))), F1(F(F2(y), F2(4.0))))
         if F(a, F2(-6 ** 2))[1] == 0 or F(a, F2(-8 ** 2))[1] == 0:
             return True
     return False
 
 
-# print(a)
-# while (a[1] != 0):
-#     while (a[1] > 0):
-#         # print(F(a, F2(-(8 ** 2)))[1])
-#         i += 1
-#         a = F(F(F1(F(F2(6.99), F2(1.0))), F1(F(F2(Decimal(num + alph[i])), F2(4.0)))), F2(-(8 ** 2)))
-#     print(num)
-#     print(a)
-#     num = num + alph[i]
-#     # print(num)
-#     i = 0
-#     a = F(F(F1(F(F2(6.99), F2(1.0))), F1(F(F2(Decimal(num + alph[i])), F2(4.0)))), F2(-(8 ** 2)))
-# print(a)
-# print(num)
-
-# print(f(1.000000000000001, 1))
-print(F(F1(F2(8.0), 100), F2(-8 ** 100)))
+def g(a, b, c):
+    if b == 0:
+        if a != 3 and a != -3:
+            if c != 0:
+                res = 1
+            else:
+                res = 0
+        else:
+            res = "continuum"
+    elif a == 0:
+        if c != 0:
+            if abs(3 * c) == abs(c):
+                res = 2
+            else:
+                res = 3
+        else:
+            res = 2
+    elif c == 0:
+        res = 2
+    else:
+        if (a + 3) * c == b * 5 or (a - 3) * c == b * 5:
+            res = 2
+        else:
+            res = 3
+    return str(res)

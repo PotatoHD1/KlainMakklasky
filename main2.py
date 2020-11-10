@@ -67,7 +67,7 @@ def F1(a):
     return res
 
 
-inp = [1, 2, 3, 4, 5, 6, 9, 11, 13, 15]
+inp = [0, 1, 4, 5, 9, 10, 11, 12, 13, 14]
 a = [[], [], [], [], []]
 res = []
 used = set()
@@ -105,12 +105,12 @@ for i in range(len(res)):
     res[i] = (res[i][0], F1(res[i][1]))
 print(res)
 result = set()
-for l in range(2 ** 7):
+for l in range(2 ** len(res)):
     table = {}
     inp1 = []
     res1 = []
-    for i in range(7):
-        if str(bin(l + 2 ** 7))[3:][i] == "1":
+    for i in range(len(res)):
+        if str(bin(l + 2 ** len(res)))[3:][i] == "1":
             res1.append(res[i])
     for i in inp:
         f = F1(bin(i + 16)[3:])
@@ -126,7 +126,7 @@ for l in range(2 ** 7):
     # print(inp1)
     if all([i > 0 for i in table.values()]) and F4(table, inp, res1) and temp not in result:
         result.add(temp)
-        print(temp, [i + 1 for i in range(len(res)) if str(bin(l + 2 ** len(res)))[3:][i] == "1"])
+        print(temp, [i for i in range(len(res)) if str(bin(l + 2 ** len(res)))[3:][i] == "1"])
 
 print(result)
 # for i in inp:

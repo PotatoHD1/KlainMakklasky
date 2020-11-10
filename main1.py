@@ -22,8 +22,6 @@ def F3(inp, res):
     return df
 
 
-
-
 def encode(n):
     ALPHABET = \
         "0123456789abcdefghijklmnopqrstuvwxyz"
